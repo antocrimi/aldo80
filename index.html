@@ -324,7 +324,7 @@
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.14);
     border-radius: 12px;
-    padding: 16px 14px;
+    padding: 16px 12px;
     margin-top: 18px;
   }
   .iban-row{ display:flex; flex-direction:column; gap: 6px; }
@@ -332,8 +332,10 @@
   .iban-label{ font-family:'IBM Plex Mono', monospace; font-size: 11px; letter-spacing:0.08em; text-transform:uppercase; color:#9FB0A8; }
   .iban-value{
     font-family:'IBM Plex Mono', monospace;
-    font-size: clamp(9px, 2.8vw, 12px);
-    letter-spacing: -0.02em;
+    display: block;
+    width: 100%;
+    font-size: 20px;
+    letter-spacing: -0.01em;
     color:#fff;
     white-space: nowrap;
     overflow-x: auto;
@@ -606,6 +608,25 @@
       setTimeout(function(){ btn.textContent = original; }, 2000);
     });
   }
+
+  function fitIbanText(){
+    const el = document.getElementById('ibanValue');
+    if (!el) return;
+    const maxSize = 20;
+    const minSize = 9;
+    let size = maxSize;
+    el.style.fontSize = size + 'px';
+    while (el.scrollWidth > el.clientWidth && size > minSize) {
+      size -= 0.5;
+      el.style.fontSize = size + 'px';
+    }
+  }
+  window.addEventListener('load', fitIbanText);
+  window.addEventListener('resize', fitIbanText);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitIbanText);
+  }
+  fitIbanText();
 
   document.getElementById('rsvpForm').addEventListener('submit', function(e){
     e.preventDefault();
