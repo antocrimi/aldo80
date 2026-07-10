@@ -341,6 +341,23 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+  .reveal-btn{
+    margin-top: 18px;
+    width:100%;
+    background: transparent;
+    color: var(--gold-soft);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size: 14.5px;
+    cursor:pointer;
+    position:relative; z-index:1;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .reveal-btn:hover{ background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.45); }
+
   .copy-btn{
     margin-top: 16px;
     width:100%;
@@ -556,18 +573,20 @@
 <section id="regalo">
   <div class="wrap">
     <div class="label">Un pensiero, se vi va</div>
-    <h2>Il regalo</h2>
+    <h2>Un viaggio per Aldo e Teresa</h2>
 
     <div class="gift-card">
-      <p>Il regalo più bello è la vostra presenza. Se volete comunque fare un pensiero ad Aldo, potete farlo con un contributo qui sotto.</p>
+      <p>Il regalo più bello è la vostra presenza. Se vi va di contribuire, stiamo pensando a un viaggio per festeggiare Aldo e Teresa: chi vuole partecipare può farlo qui sotto.</p>
 
-      <div class="iban-box">
+      <button class="reveal-btn" id="revealBtn" onclick="toggleIban()">Mostra i dettagli</button>
+
+      <div class="iban-box" id="ibanBox" hidden>
         <div class="iban-row">
           <span class="iban-label">IBAN</span>
           <span class="iban-value" id="ibanValue">IT51 F010 3040 0900 0000 0065 591</span>
         </div>
       </div>
-      <button class="copy-btn" onclick="copyIban()" id="copyBtn">Copia IBAN</button>
+      <button class="copy-btn" onclick="copyIban()" id="copyBtn" hidden>Copia IBAN</button>
     </div>
   </div>
 </section>
@@ -593,6 +612,16 @@
   function closeCalendarSheet(){
     document.getElementById('sheetBackdrop').classList.remove('open');
     document.getElementById('calendarSheet').classList.remove('open');
+  }
+
+  function toggleIban(){
+    const box = document.getElementById('ibanBox');
+    const copyBtn = document.getElementById('copyBtn');
+    const revealBtn = document.getElementById('revealBtn');
+    box.hidden = false;
+    copyBtn.hidden = false;
+    revealBtn.hidden = true;
+    fitIbanText();
   }
 
   function copyIban(){
